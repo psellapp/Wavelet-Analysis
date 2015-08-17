@@ -14,6 +14,7 @@ end
 
 a0 = 1; na = n/2; a1 = na; scale = zeros(1,na);
 if linlog_flag %log scale
+    %     disp('log scale')
     da = (a1/a0)^(1/(na-1));
     %     delta = log(da);
     for i = 1:na
@@ -21,6 +22,7 @@ if linlog_flag %log scale
         scale(i) = 2*pi()*a/n;
     end
 else %linear scale
+    %     disp('linear scale')
     da = (a1-a0+1)/na;
     for i = 1:na
         a = a0+((i-1)*da);
@@ -28,5 +30,6 @@ else %linear scale
     end
     %     delta = da./a;
 end
+% plot(scale,'*r')
 
 end
