@@ -16,6 +16,6 @@ end
 
 arg = exp(-((scale.*waveArray)-w0).^2/2);
 Morlet_hat_coeff = complex(arg);
-plot(abs(Morlet_hat_coeff));
+% plot(abs(Morlet_hat_coeff));
 
 end
