@@ -8,7 +8,7 @@ linlog_flag = 0; % 0 - linear scale; 1 - log scale
 origSignal = fft(y);
 n = length(origSignal);
 [waveArray]=create_wave_array(n,[]);
-[scale] = waveletscale(n,linlog_flag);
+[scale] = waveletscale(n,linlog_flag,[],[]);
 transformSignal_array = zeros(length(scale),n);
 
 
