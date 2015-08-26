@@ -1,12 +1,15 @@
-function [scale] = waveletscale(n,linlog_flag,a0,a1)
+function [scale] = waveletscale(n,dt,ds,a0,a1,linlog_flag)
 %
 % Generate array of scales for wavelet analysis.
 % Created: Prabu, 8/13/2015
-% modified: Prabu, 8/17/2015. Included option to specify scale limits
+% modified: Prabu, 8/17/2015.-Included option to specify scale limits
+%           Prabu, 8/25/2015.-Mod to be more in line with matlab cwtft
+%           function
 %
 % n - length of original signal
 % linlog_flag - set to 0 for linear scale, 1 for log scale
-% a0,a1 - min,max values of scale a - defaults to 1 and n/2
+% dt,ds - time and scale interval
+% a0, a1 - min and max scale
 %
 if ~rem(n,2)==0
     disp('Error! n is not even.')
@@ -15,13 +18,38 @@ if ~rem(n,2)==0
 end
 
 na = n/2;
-
 if isempty(a0)
     a0 = 1;
 end
 if isempty(a1)
     a1 = na;
 end
+
+% ===============================================
+% if isempty(ds)
+%     ds = 0.4875;% arbitrary value. Check Matlab documentation for function cwtft
+% end
+% if isempty(a0)
+%     a0 = 2*dt;
+% end
+% if isempty(a1)
+%     %     a1 = na*dt;
+%     numScales = fix(log2(n)/ds)+1;
+% else
+%     numScales = length(a0:ds:a1);
+% end
+% 
+% 
+% if linlog_flag %log scale
+%     %     disp('log scale')
+%     scale = a0*2.^((0:numScales-1)*ds);
+% else %linear scale
+%     %     disp('linear scale')
+%     scale = 2*pi*(a0+(0:numScales-1)*ds)/n;
+% end
+% 
+% ================================================
+
 na = a1-a0+1;
 scale = zeros(1,na);
 
@@ -42,6 +70,6 @@ else %linear scale
     end
     %     delta = da./a;
 end
-% plot(scale,'*r')
+figure(2); plot(scale,'*r')
 
 end
