@@ -1,10 +1,11 @@
-function [scale] = waveletscale(n,dt,ds,a0,a1,linlog_flag)
+function [scale,delta,da] = waveletscale(n,dt,ds,a0,a1,linlog_flag)
 %
 % Generate array of scales for wavelet analysis.
 % Created: Prabu, 8/13/2015
 % modified: Prabu, 8/17/2015.-Included option to specify scale limits
 %           Prabu, 8/25/2015.-Mod to be more in line with matlab cwtft
 %           function
+%           Prabu, 9/3/2015. -output delta and da
 %
 % n - length of original signal
 % linlog_flag - set to 0 for linear scale, 1 for log scale
@@ -56,7 +57,7 @@ scale = zeros(1,na);
 if linlog_flag %log scale
     %     disp('log scale')
     da = (a1/a0)^(1/(na-1));
-    %     delta = log(da);
+        delta = log(da);
     for i = 1:na
         a = a0*(da^(i-1));
         scale(i) = 2*pi()*a/n;
@@ -68,7 +69,7 @@ else %linear scale
         a = a0+((i-1)*da);
         scale(i) = 2*pi()*a/n;
     end
-    %     delta = da./a;
+        delta = da./a;
 end
 figure(2); plot(scale,'*r')
 
