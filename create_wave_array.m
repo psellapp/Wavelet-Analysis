@@ -8,6 +8,6 @@ function [waveArray]=create_wave_array(n,dt)
 % 
 
 waveArray = 1:fix(n/2);
-% k = k.*(2*pi()/(n*dt));
+waveArray = waveArray.*(2*pi()/(n*dt));
 waveArray = [0, waveArray, -waveArray(fix((n-1)/2):-1:1)];
 end

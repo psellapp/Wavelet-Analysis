@@ -1,6 +1,6 @@
 function [Morlet_hat_coeff]=Morlet_hat(waveArray,scale,w0)
 %
-% Calculate coefficients for the analytic transform of Morlet wavelet.
+% Calculate coefficients for the non-analytic transform of Morlet wavelet.
 % The results are returned as complex numbers even for real-valued
 % functions.
 %
@@ -16,6 +16,7 @@ end
 
 arg = exp(-((scale.*waveArray)-w0).^2/2);
 Morlet_hat_coeff = complex(arg);
-% plot(abs(Morlet_hat_coeff));
-
+%   figure(3);
+%   plot(real(ifft(Morlet_hat_coeff))) %).*(waveArray>0))+real(ifft(Morlet_hat_coeff)).*(waveArray<=0));
+% 
 end

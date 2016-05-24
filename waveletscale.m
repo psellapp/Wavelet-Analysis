@@ -12,65 +12,80 @@ function [scale,delta,da] = waveletscale(n,dt,ds,a0,a1,linlog_flag)
 % dt,ds - time and scale interval
 % a0, a1 - min and max scale
 %
-if ~rem(n,2)==0
-    disp('Error! n is not even.')
-    scale = [];
-    return
-end
 
-na = n/2;
-if isempty(a0)
-    a0 = 1;
-end
-if isempty(a1)
-    a1 = na;
-end
+
+% if ~rem(n,2)==0
+%     disp('Error! n is not even.')
+%     scale = [];
+%     return
+% end
+%
+% na = n/2;
+% % % % if isempty(a0)
+% % % %     a0 = 1;
+% % % % end
+% % % % if isempty(a1)
+% % % %     a1 = na;
+% % % % end
 
 % ===============================================
-% if isempty(ds)
-%     ds = 0.4875;% arbitrary value. Check Matlab documentation for function cwtft
-% end
-% if isempty(a0)
-%     a0 = 2*dt;
-% end
-% if isempty(a1)
-%     %     a1 = na*dt;
-%     numScales = fix(log2(n)/ds)+1;
-% else
-%     numScales = length(a0:ds:a1);
-% end
-% 
-% 
-% if linlog_flag %log scale
-%     %     disp('log scale')
-%     scale = a0*2.^((0:numScales-1)*ds);
-% else %linear scale
-%     %     disp('linear scale')
-%     scale = 2*pi*(a0+(0:numScales-1)*ds)/n;
-% end
-% 
-% ================================================
+if isempty(ds)
+    ds = 0.4875;% arbitrary value. Check Matlab documentation for function cwtft
+end
+if isempty(a0)
+    a0 = 2*dt;
+end
+if isempty(a1)
+    %     a1 = na*dt;
+    numScales = fix(log2(n)/ds)+1;
+else
+    numScales = length(a0:ds:a1);
+end
 
-na = a1-a0+1;
-scale = zeros(1,na);
 
 if linlog_flag %log scale
-    %     disp('log scale')
-    da = (a1/a0)^(1/(na-1));
-        delta = log(da);
-    for i = 1:na
-        a = a0*(da^(i-1));
-        scale(i) = 2*pi()*a/n;
-    end
+    disp('log scale')
+    scale = a0*2.^((0:numScales-1)*ds);
+    da = (a1/a0)^(1/(n-1));
+    delta = log(da);
 else %linear scale
-    %     disp('linear scale')
-    da = (a1-a0+1)/na;
-    for i = 1:na
-        a = a0+((i-1)*da);
-        scale(i) = 2*pi()*a/n;
-    end
-        delta = da./a;
+    disp('linear scale')
+%     scale = 2*pi*(a0+(0:numScales-1)*ds)/n;
+%     da = (a1-a0+1)/n;
+%     delta = da/a1;
+scale = a0:ds:a1;
+da = ds;
+delta = ds;
+
 end
-figure(2); plot(scale,'*r')
+
+% ================================================
+% % % % %
+% % % % % % na = a1-a0+1;
+% % % % % scale = zeros(1,na);
+% % % % %
+% % % % % if linlog_flag %log scale
+% % % % %     %     disp('log scale')
+% % % % %     da = (a1/a0)^(1/(na-1));
+% % % % %         delta = log(da);
+% % % % %     for i = 1:na
+% % % % %         a = a0*(da^(i-1));
+% % % % %         scale(i) = 2*pi()*a/n;
+% % % % %     end
+% % % % % else %linear scale
+% % % % %     %     disp('linear scale')
+% % % % %     da = (a1-a0+1)/na;
+% % % % %     for i = 1:na
+% % % % %         a = a0+((i-1)*da);
+% % % % %         scale(i) = 2*pi()*a/n;
+% % % % %     end
+% % % % %         delta = da./a;
+% % % % % end
+% 
+% figure(2); plot(scale,'*r')
+% xlabel('# of scales')
+% ylabel('Scales, cm')
+delta
+da
 
 end
